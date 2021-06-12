@@ -1,5 +1,29 @@
-//Use 485 over Serial by https://github.com/mathertel/DMXSerial
-#include <DMXSerial.h>
+#include <MIDI.h> //standart MIDI lib, https://github.com/FortySevenEffects/arduino_midi_library
+MIDI_CREATE_DEFAULT_INSTANCE();
+
+
+void setup() {
+  Serial.begin(115200);
+
+  MIDI.begin();
+
+  Serial.print("Init\n");
+}
+
+void loop() {
+    if (MIDI.read()) {
+        Serial.print("MIDI: ");
+        Serial.print(MIDI.getType());
+        Serial.print(", ");
+        Serial.print(MIDI.getData1());
+        Serial.print(", ");
+        Serial.print(MIDI.getData2());
+        Serial.print("\n");
+    }
+}
+
+/*
+#include <DMXSerial.h> //485 over Serial, https://github.com/mathertel/DMXSerial
 
 
 int devChannel = 1;
@@ -30,3 +54,4 @@ void loop() {
   
   delay(5);
 }
+*/
