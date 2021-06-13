@@ -12,6 +12,38 @@ Shield used is Iskra RS485, connected to:
     out G -> XLR 1
 */
 
+#include <Wire.h>
+
+
+void i2cRequest() {
+  Serial.print("req\n");
+}
+void i2cRecieve(int bytes) {
+  Serial.print("in ");
+  while (Wire.available()) {
+    byte c = Wire.read();
+    Serial.print(c);
+    Serial.print(',');
+  }
+  Serial.print("\n");
+}
+
+
+void setup() {
+  Serial.begin(115200);
+
+  
+  Wire.begin(0x01);
+  Wire.onReceive(i2cRecieve);
+  Wire.onRequest(i2cRequest);
+
+  Serial.print("Init\n");
+}
+
+void loop() {
+}
+
+/*
 #include <DMXSerial.h> //485 over Serial, https://github.com/mathertel/DMXSerial
 
 
@@ -43,3 +75,4 @@ void loop() {
   
   delay(5);
 }
+*/
