@@ -1,17 +1,32 @@
 #include <MIDI.h> //standart MIDI lib, https://github.com/FortySevenEffects/arduino_midi_library
 MIDI_CREATE_DEFAULT_INSTANCE();
 
+#include <Wire.h>
+
+
+
 
 void setup() {
-  Serial.begin(115200);
+//  Serial.begin(115200);
 
+  
+  Wire.begin();
+
+  
   MIDI.begin();
 
-  Serial.print("Init\n");
+
+//  Serial.print("Init\n");
 }
 
 void loop() {
     if (MIDI.read()) {
+        Wire.beginTransmission(0x01);   
+        Wire.write(MIDI.getData1());   
+        Wire.write(MIDI.getData2());              
+        Wire.endTransmission();     
+/*
+        
         Serial.print("MIDI: ");
         Serial.print(MIDI.getType());
         Serial.print(", ");
@@ -19,6 +34,7 @@ void loop() {
         Serial.print(", ");
         Serial.print(MIDI.getData2());
         Serial.print("\n");
+*/
     }
 }
 
