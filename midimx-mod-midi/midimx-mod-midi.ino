@@ -16,6 +16,7 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 
 
 #include <Wire.h>
+#define DMXI2C 0x01
 
 
 
@@ -31,7 +32,7 @@ void setup() {
 
 void loop() {
     if (MIDI.read()) {
-        Wire.beginTransmission(0x01);   
+        Wire.beginTransmission(DMXI2C);   
         Wire.write("M");   
         Wire.write(MIDI.getChannel());   
         Wire.write(MIDI.getType());   
