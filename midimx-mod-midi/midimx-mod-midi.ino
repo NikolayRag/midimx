@@ -1,18 +1,18 @@
 /*
 MIDI listener board.
-Listen incoming events and poke DMX over i2c
+Listen incoming events and poke DMX board over i2c
 
-MIDI IN shields is Iskra MIDI IN, connected [S -> RX]
+MIDI IN shield tested is Iskra MIDI IN, connected [S -> RX]
 */
 
-//Uncomment to enable Serial.print
+//Uncomment to enable Serial.print. Using it can (will) interfere with MIDI over Serial
 //#define SPRINT
 
 
 #include <MIDI.h> //standart MIDI lib, https://github.com/FortySevenEffects/arduino_midi_library
 
 MIDI_CREATE_DEFAULT_INSTANCE();
-//MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI); //nano pro
+//MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI); //nano pro if used with SPRINT
 
 
 #include <Wire.h>
