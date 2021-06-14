@@ -15,10 +15,12 @@ Shield used is Iskra RS485, connected to:
 #include <Wire.h>
 
 
-void i2cRequest() {
+void i2cRequestCB() {
   Serial.print("req\n");
 }
-void i2cRecieve(int bytes) {
+
+
+void i2cRecieveCB(int bytes) {
   Serial.print("in ");
   while (Wire.available()) {
     byte c = Wire.read();
@@ -34,8 +36,8 @@ void setup() {
 
   
   Wire.begin(0x01);
-  Wire.onReceive(i2cRecieve);
-  Wire.onRequest(i2cRequest);
+  Wire.onReceive(i2cRecieveCB);
+  Wire.onRequest(i2cRequestCB);
 
   Serial.print("Init\n");
 }
