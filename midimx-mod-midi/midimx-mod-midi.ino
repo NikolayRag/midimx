@@ -15,6 +15,12 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 //MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI); //nano pro if used with SPRINT
 
 
+//NOT TESTED
+#ifdef USBCON
+#include "MIDIUSB.h"
+#endif
+
+
 #include <Wire.h>
 #define DMXI2C 0x01
 
@@ -31,6 +37,20 @@ void setup() {
 }
 
 void loop() {
+#ifdef USBCON
+    midiEventPacket_t rx = MidiUSB.read();
+    if (rx.header != 0) {
+        Wire.beginTransmission(DMXI2C);
+        Wire.write("U");
+        Wire.write(rx.header);
+        Wire.write(rx.byte1);
+        Wire.write(rx.byte2);
+        Wire.write(rx.byte3);
+        Wire.endTransmission();
+    }
+#endif
+
+    
     if (MIDI.read()) {
         Wire.beginTransmission(DMXI2C);   
         Wire.write("M");   
