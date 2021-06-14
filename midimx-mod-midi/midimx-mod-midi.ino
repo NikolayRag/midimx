@@ -6,7 +6,7 @@ MIDI IN shields is Iskra MIDI IN, connected [S -> RX]
 */
 
 //Uncomment to enable Serial.print
-//#define PRINT
+//#define SPRINT
 
 
 #include <MIDI.h> //standart MIDI lib, https://github.com/FortySevenEffects/arduino_midi_library
@@ -20,7 +20,7 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 
 
 void setup() {
-#ifdef PRINT
+#ifdef SPRINT
   Serial.begin(115200);
 #endif
   
@@ -37,7 +37,7 @@ void loop() {
         Wire.endTransmission();     
 
 
-#ifdef PRINT
+#ifdef SPRINT
         Serial.print("MIDI: ");
         Serial.print(MIDI.getType());
         Serial.print(", ");
