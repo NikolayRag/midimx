@@ -32,6 +32,9 @@ void setup() {
 void loop() {
     if (MIDI.read()) {
         Wire.beginTransmission(0x01);   
+        Wire.write("M");   
+        Wire.write(MIDI.getChannel());   
+        Wire.write(MIDI.getType());   
         Wire.write(MIDI.getData1());   
         Wire.write(MIDI.getData2());              
         Wire.endTransmission();     
