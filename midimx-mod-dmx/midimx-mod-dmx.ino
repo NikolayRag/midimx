@@ -17,6 +17,7 @@ Shield used is Iskra RS485, connected to:
 
 void i2cRequestCB() {
   Serial.print("req\n");
+//  Wire.write(); //template memo
 }
 
 
