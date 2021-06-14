@@ -26,7 +26,7 @@ void setup() {
   
   Wire.begin();
   
-  MIDI.begin();
+  MIDI.begin(MIDI_CHANNEL_OMNI);
 }
 
 void loop() {
