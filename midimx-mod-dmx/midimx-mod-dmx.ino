@@ -34,18 +34,43 @@ void i2cRequestCB() {
 
 void i2cRecieveCB(int bytes) {
   Serial.print("in ");
-  byte c;
+
+#define IN_MARKER 0
+#define IN_CHANNEL 1
+#define IN_TYPE 2
+#define IN_BYTE1 3
+#define IN_BYTE2 4
+#define IN_MAX_LEN 5
+  byte i2cIn[IN_MAX_LEN];
+  int i = 0;
   while (Wire.available()) {
-    c = Wire.read();
-    Serial.print(c);
+    byte v = Wire.read();
+    Serial.print(v);
     Serial.print(',');
+
+    if (i >= IN_MAX_LEN)
+      continue;
+    i2cIn[i++] = v;
   }
   Serial.print("\n");
 
 
-  DMXSerial.write(devRed, c*2);
-  DMXSerial.write(devGreen, c*2);
-  DMXSerial.write(devBlue, c*2);
+  if (i2cIn[IN_MARKER] != 77)
+    return;
+
+  if (
+    (i2cIn[IN_CHANNEL] !=1)
+    || (i2cIn[IN_TYPE] !=176)
+  )
+    return;
+    
+  if (i2cIn[IN_BYTE1] == 0)
+    DMXSerial.write(devRed, i2cIn[IN_BYTE2]*2);
+  if (i2cIn[IN_BYTE1] == 1)
+    DMXSerial.write(devGreen, i2cIn[IN_BYTE2]*2);
+  if (i2cIn[IN_BYTE1] == 2)
+    DMXSerial.write(devBlue, i2cIn[IN_BYTE2]*2);
+
   DMXSerial.write(devWhite, 0);
   DMXSerial.write(devLamp, 255);
 }
