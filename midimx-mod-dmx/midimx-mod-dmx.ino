@@ -11,6 +11,10 @@ Shield used is Iskra RS485, connected to:
     out B -> XLR 2
     out G -> XLR 1
 */
+//Uncomment to enable Serial.print. Using it can interfere with 485 over Serial
+//#define SPRINT
+
+
 #include <DMXSerial.h> //485 over Serial, https://github.com/mathertel/DMXSerial
 
 int devChannel = 1;
@@ -27,13 +31,18 @@ int devWhite =  devChannel +7;
 
 
 void i2cRequestCB() {
+#ifdef SPRINT
   Serial.print("req\n");
+#endif
+
 //  Wire.write(); //template memo
 }
 
 
 void i2cRecieveCB(int bytes) {
+#ifdef SPRINT
   Serial.print("in ");
+#endif
 
 #define IN_MARKER 0
 #define IN_CHANNEL 1
@@ -45,15 +54,18 @@ void i2cRecieveCB(int bytes) {
   int i = 0;
   while (Wire.available()) {
     byte v = Wire.read();
+#ifdef SPRINT
     Serial.print(v);
     Serial.print(',');
+#endif
 
     if (i >= IN_MAX_LEN)
       continue;
     i2cIn[i++] = v;
   }
+#ifdef SPRINT
   Serial.print("\n");
-
+#endif
 
   if (i2cIn[IN_MARKER] != 77)
     return;
@@ -77,8 +89,9 @@ void i2cRecieveCB(int bytes) {
 
 
 void setup() {
+#ifdef SPRINT
   Serial.begin(115200);
-
+#endif
   
   Wire.begin(0x01);
   Wire.onReceive(i2cRecieveCB);
@@ -90,7 +103,9 @@ void setup() {
   DMXSerial.write(devMode, 0);
 
 
+#ifdef SPRINT
   Serial.print("Init\n");
+#endif
 }
 
 
