@@ -3,9 +3,9 @@ DMX board.
 Map incoming data over i2c to DMX
 
 Shield used is Iskra RS485, connected to:
-    RO -> TX
-    ^v (dir) -> Gnd (low to transmit)
-    DI -> --
+    DI -> TX
+    ^v (dir) -> +5 (high to transmit)
+    RO -> --
 
     out A -> XLR 3
     out B -> XLR 2
