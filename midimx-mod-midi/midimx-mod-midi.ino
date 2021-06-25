@@ -8,6 +8,11 @@ MIDI IN shield tested is Iskra MIDI IN, connected [S -> RX]
 //Uncomment to enable Serial.print. Using it can (will) interfere with MIDI over Serial
 //#define SPRINT
 
+#ifdef USBCON
+//#define USBMIDI
+#endif
+
+
 
 #include <MIDI.h> //standart MIDI lib, https://github.com/FortySevenEffects/arduino_midi_library
 
@@ -16,7 +21,7 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 
 
 //NOT TESTED
-#ifdef USBCON
+#ifdef USBMIDI
 #include "MIDIUSB.h"
 #endif
 
@@ -37,7 +42,7 @@ void setup() {
 }
 
 void loop() {
-#ifdef USBCON
+#ifdef USBMIDI
     midiEventPacket_t rx = MidiUSB.read();
     if (rx.header != 0) {
         Wire.beginTransmission(DMXI2C);
